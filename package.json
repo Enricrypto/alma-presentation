@@ -1,0 +1,21 @@
+{
+  "name": "ledgerling-demo-presentation",
+  "version": "1.0.0",
+  "description": "Ledgerling — Cinematic Product Presentation",
+  "scripts": {
+    "start": "remotion studio",
+    "build": "remotion render src/index.ts LedgerlingPresentation out/presentation.mp4 --codec h264",
+    "upgrade": "remotion upgrade"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.1.0"
+  }
+}
