@@ -26,63 +26,60 @@ const GridBackground: React.FC = () => (
   />
 )
 
-interface Category {
-  label: string
-  color: string
-  bricks: Array<{ name: string; desc: string }>
+interface Bullet {
+  text: string
+  sup?: string
 }
 
-const CATEGORIES: Category[] = [
+interface DataBlock {
+  number: string
+  title: string
+  bullets: Bullet[]
+  arrow: string
+  sourceNote: string
+  color: string
+}
+
+const DATA_BLOCKS: DataBlock[] = [
   {
-    label: "Data & Intelligence",
-    color: "#3B82F6",
-    bricks: [
+    number: "01",
+    title: "Too Many Tools",
+    bullets: [
       {
-        name: "API Endpoints",
-        desc: "45+ paid APIs · data · LLM · scraping · images · DeFi"
-      }
-    ]
+        text: "Average company runs +100 SaaS apps depending on size",
+        sup: "¹"
+      },
+      { text: "44% of SaaS licenses are wasted or underutilized" }
+    ],
+    arrow: "Measurable budget loss - not just inefficiency",
+    sourceNote:
+      "¹ Okta Businesses at Work 2024 · Zylo SaaS Management Index 2023",
+    color: "#3B82F6"
   },
   {
-    label: "Facilitators & Discovery",
-    color: "#14B8A6",
-    bricks: [
-      { name: "22 Facilitators", desc: "Connect services across chains" },
-      { name: "Bazaar", desc: "Discovery layer - finds possibilities" }
-    ]
+    number: "02",
+    title: "Constant Context Switching",
+    bullets: [
+      {
+        text: "1,200+ app switches per day - up to 40% of productivity lost",
+        sup: "²"
+      },
+      { text: "23+ minutes to regain focus after a single interruption" }
+    ],
+    arrow: "Nearly a full workday lost every week",
+    sourceNote: "² HBR app-switching research · UC Irvine / Gloria Mark",
+    color: "#14B8A6"
   },
   {
-    label: "Trust & Orchestration",
-    color: "#8B5CF6",
-    bricks: [
-      { name: "Rencom", desc: "Reputation scoring" },
-      { name: "Agently", desc: "Orchestration for multi-step tasks" }
-    ]
-  },
-  {
-    label: "Budget & Workflow",
-    color: "#F59E0B",
-    bricks: [
-      { name: "Locus / ampsend", desc: "Budget management" },
-      { name: "x402jobs", desc: "Workflow builder" }
-    ]
-  },
-  {
-    label: "Security & Privacy",
-    color: "#10B981",
-    bricks: [
-      { name: "x402-secure / zauth", desc: "Security & risk controls" },
-      { name: "x402r", desc: "Refunds" },
-      { name: "px402 / zkStash", desc: "Privacy bricks" }
-    ]
-  },
-  {
-    label: "Integration & Insights",
-    color: "#F43F5E",
-    bricks: [
-      { name: "Oops!402 / Dexter", desc: "MCP integration" },
-      { name: "x402scan / x402station", desc: "Analytics & monitoring" }
-    ]
+    number: "03",
+    title: "Fragmentation Has a Price",
+    bullets: [
+      { text: "Software complexity drains ~7% of annual revenue", sup: "³" },
+      { text: "20% of software budgets lost to failed implementations" }
+    ],
+    arrow: "Hidden inefficiencies that compound into millions",
+    sourceNote: "³ Freshworks 2025 Cost of Complexity Report",
+    color: "#F59E0B"
   }
 ]
 
@@ -90,19 +87,20 @@ export const Slide1: React.FC<SlideProps> = ({ localFrame: frame }) => {
   const labelAnim = fadeSlideIn(frame, 8, 18, 12)
   const titleAnim = fadeSlideIn(frame, 14, 28, 16)
   const subtitleAnim = fadeSlideIn(frame, 28, 22, 12)
+  const closingAnim = fadeSlideIn(frame, 110, 22, 14)
 
-  const dividerWidth = interpolate(frame, [38, 62], [0, 72], clamp)
+  const dividerWidth = interpolate(frame, [36, 62], [0, 72], clamp)
 
   return (
     <AbsoluteFill style={{ background: Colors.bg.primary, overflow: "hidden" }}>
       <GridBackground />
 
-      {/* ── TITLE SECTION ─────────────────────────────────────── */}
+      {/* Header section */}
       <div
         style={{
           position: "absolute",
-          top: 76,
           left: 120,
+          top: 72,
           right: 120
         }}
       >
@@ -115,39 +113,33 @@ export const Slide1: React.FC<SlideProps> = ({ localFrame: frame }) => {
             color: Colors.accent.blue,
             letterSpacing: "0.18em",
             textTransform: "uppercase",
-            marginBottom: 22,
+            marginBottom: 24,
             ...labelAnim
           }}
         >
-          01 - Building Blocks
+          01 - The Problem
         </div>
 
         {/* Title */}
-        <div style={{ marginBottom: 12, ...titleAnim }}>
-          <div
-            style={{
-              fontFamily: Font.family,
-              fontSize: Font.size.title,
-              fontWeight: Font.weight.semibold,
-              color: Colors.text.primary,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.1
-            }}
-          >
-            The Building Blocks
-          </div>
-          <div
-            style={{
-              fontFamily: Font.family,
-              fontSize: Font.size.title,
-              fontWeight: Font.weight.semibold,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.1
-            }}
-          >
-            <span style={{ color: Colors.text.primary }}>of Our </span>
-            <span style={{ color: Colors.accent.blue }}>System</span>
-          </div>
+        <div style={{ marginBottom: 14, ...titleAnim }}>
+          {[
+            "Software complexity is quietly",
+            "draining millions every year."
+          ].map((line) => (
+            <div
+              key={line}
+              style={{
+                fontFamily: Font.family,
+                fontSize: Font.size.subtitle,
+                fontWeight: Font.weight.semibold,
+                color: Colors.text.primary,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.12
+              }}
+            >
+              {line}
+            </div>
+          ))}
         </div>
 
         {/* Accent divider */}
@@ -156,7 +148,6 @@ export const Slide1: React.FC<SlideProps> = ({ localFrame: frame }) => {
             width: dividerWidth,
             height: 1,
             background: Colors.accent.blue,
-            marginBottom: 0,
             opacity: 0.6
           }}
         />
@@ -168,107 +159,205 @@ export const Slide1: React.FC<SlideProps> = ({ localFrame: frame }) => {
             fontSize: Font.size.label,
             fontWeight: Font.weight.light,
             color: Colors.text.secondary,
-            letterSpacing: "0.01em",
-            lineHeight: 1.6,
-            marginTop: 20,
+            marginTop: 18,
             maxWidth: 860,
+            lineHeight: 1.55,
             ...subtitleAnim
           }}
         >
-          A modular ecosystem of specialized components - each solves a specific
-          problem, and together they form a seamless, powerful platform.
+          Not one big problem - thousands of small frictions, quietly
+          compounding.
         </div>
       </div>
 
-      {/* ── BRICKS GRID ───────────────────────────────────────── */}
+      {/* 3 Data blocks */}
       <div
         style={{
           position: "absolute",
-          top: 420,
           left: 120,
           right: 120,
-          bottom: 68,
+          top: 348,
+          bottom: 110,
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
-          gridTemplateRows: "repeat(2, 1fr)",
-          gap: 14
+          gap: 20
         }}
       >
-        {CATEGORIES.map((cat, i) => {
-          const anim = staggeredFadeIn(frame, i, 65, 11)
+        {DATA_BLOCKS.map((block, i) => {
+          const anim = staggeredFadeIn(frame, i, 60, 14)
           return (
             <div
               key={i}
               style={{
                 background: "rgba(255,255,255,0.022)",
-                borderTop: "1px solid rgba(255,255,255,0.06)",
-                borderRight: "1px solid rgba(255,255,255,0.06)",
-                borderBottom: "1px solid rgba(255,255,255,0.06)",
-                borderLeft: `3px solid ${cat.color}`,
+                borderTop: "1px solid rgba(255,255,255,0.05)",
+                borderRight: "1px solid rgba(255,255,255,0.05)",
+                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                borderLeft: `3px solid ${block.color}`,
                 borderRadius: 8,
-                padding: "14px 18px",
+                padding: "26px 28px 18px",
                 display: "flex",
                 flexDirection: "column",
-                gap: 8,
+                gap: 14,
                 ...anim
               }}
             >
-              {/* Category label */}
+              {/* Background number */}
               <div
                 style={{
                   fontFamily: Font.family,
-                  fontSize: 12,
-                  fontWeight: Font.weight.semibold,
-                  color: cat.color,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase"
+                  fontSize: 52,
+                  fontWeight: Font.weight.bold,
+                  color: block.color,
+                  opacity: 0.18,
+                  lineHeight: 1,
+                  letterSpacing: "-0.04em"
                 }}
               >
-                {cat.label}
+                {block.number}
               </div>
 
-              {/* Separator */}
+              {/* Block title */}
               <div
                 style={{
-                  width: "100%",
+                  fontFamily: Font.family,
+                  fontSize: Font.size.label,
+                  fontWeight: Font.weight.semibold,
+                  color: Colors.text.primary,
+                  letterSpacing: "0.01em"
+                }}
+              >
+                {block.title}
+              </div>
+
+              {/* Short rule */}
+              <div
+                style={{
+                  width: 32,
                   height: 1,
-                  background: "rgba(255,255,255,0.05)"
+                  background: block.color,
+                  opacity: 0.4
                 }}
               />
 
-              {/* Brick list */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {cat.bricks.map((brick, j) => (
-                  <div key={j}>
-                    <div
+              {/* Bullet list */}
+              <div
+                style={{ display: "flex", flexDirection: "column", gap: 12 }}
+              >
+                {block.bullets.map((b, j) => (
+                  <div
+                    key={j}
+                    style={{
+                      display: "flex",
+                      gap: 12,
+                      alignItems: "flex-start"
+                    }}
+                  >
+                    <span
                       style={{
-                        fontFamily: Font.family,
-                        fontSize: 19,
-                        fontWeight: Font.weight.semibold,
-                        color: Colors.text.primary,
-                        lineHeight: 1.3
+                        width: 4,
+                        height: 4,
+                        borderRadius: "50%",
+                        background: block.color,
+                        flexShrink: 0,
+                        marginTop: 10
                       }}
-                    >
-                      {brick.name}
-                    </div>
+                    />
                     <div
                       style={{
                         fontFamily: Font.family,
-                        fontSize: 14,
-                        fontWeight: Font.weight.light,
+                        fontSize: 21,
+                        fontWeight: Font.weight.regular,
                         color: Colors.text.secondary,
-                        lineHeight: 1.5,
-                        marginTop: 2
+                        lineHeight: 1.55
                       }}
                     >
-                      {brick.desc}
+                      {b.text}
+                      {b.sup && (
+                        <sup
+                          style={{
+                            fontFamily: Font.family,
+                            fontSize: 14,
+                            fontWeight: Font.weight.light,
+                            color: block.color,
+                            opacity: 0.7,
+                            marginLeft: 2,
+                            verticalAlign: "super",
+                            lineHeight: 0
+                          }}
+                        >
+                          {b.sup}
+                        </sup>
+                      )}
                     </div>
                   </div>
                 ))}
               </div>
+
+              {/* Arrow conclusion */}
+              <div
+                style={{
+                  borderTop: "1px solid rgba(255,255,255,0.05)",
+                  paddingTop: 14,
+                  fontFamily: Font.family,
+                  fontSize: 19,
+                  fontWeight: Font.weight.medium,
+                  color: block.color,
+                  lineHeight: 1.4,
+                  marginTop: "auto"
+                }}
+              >
+                → {block.arrow}
+              </div>
+
+              {/* Source note */}
+              <div
+                style={{
+                  fontFamily: Font.family,
+                  fontSize: 14,
+                  fontWeight: Font.weight.light,
+                  color: Colors.text.secondary,
+                  opacity: 0.6,
+                  lineHeight: 1.4
+                }}
+              >
+                {block.sourceNote}
+              </div>
             </div>
           )
         })}
+      </div>
+
+      {/* Closing line */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 44,
+          left: 120,
+          right: 120,
+          fontFamily: Font.family,
+          fontSize: Font.size.label,
+          fontWeight: Font.weight.light,
+          color: Colors.text.secondary,
+          ...closingAnim
+        }}
+      >
+        Modern companies are{" "}
+        <span
+          style={{ color: Colors.text.primary, fontWeight: Font.weight.medium }}
+        >
+          not short on tools
+        </span>
+        . They are{" "}
+        <span
+          style={{
+            color: Colors.accent.blue,
+            fontWeight: Font.weight.semibold
+          }}
+        >
+          drowning in them
+        </span>
+        .
       </div>
     </AbsoluteFill>
   )

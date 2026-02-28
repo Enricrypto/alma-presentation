@@ -1,6 +1,5 @@
 import React from "react"
-import { AbsoluteFill, interpolate } from "remotion"
-import { Bullet } from "../components/Bullet"
+import { AbsoluteFill } from "remotion"
 import { Colors, Font } from "../styles"
 import { fadeSlideIn } from "../motion"
 
@@ -22,39 +21,59 @@ const GridBackground: React.FC = () => (
   />
 )
 
+const PAIRS = [
+  {
+    stop: "Stop managing tools",
+    start: "Start getting results"
+  },
+  {
+    stop: "Stop running workflows",
+    start: "Start finishing outcomes"
+  },
+  {
+    stop: "Stop paying for multiple SaaS",
+    start: "Start using one intelligent layer"
+  }
+]
+
 export const Slide2: React.FC<SlideProps> = ({ localFrame: frame }) => {
-  const bullets = [
-    "Modern teams rely on dozens of SaaS tools",
-    "Users need outcomes - not API integrations",
-    "Manual workflows waste capital at every step"
+  // Zone 1 — title
+  const labelAnim = fadeSlideIn(frame, 8, 18, 10)
+  const titleAnim = fadeSlideIn(frame, 18, 26, 14)
+
+  // Zone 2 — transformation pairs (stop fades in first, start follows)
+  const stopAnims = [
+    fadeSlideIn(frame, 52, 20, 10),
+    fadeSlideIn(frame, 88, 20, 10),
+    fadeSlideIn(frame, 124, 20, 10)
+  ]
+  const startAnims = [
+    fadeSlideIn(frame, 68, 24, 12),
+    fadeSlideIn(frame, 104, 24, 12),
+    fadeSlideIn(frame, 140, 24, 12)
   ]
 
-  const labelAnim = fadeSlideIn(frame, 8, 18, 12)
-  const titleAnim = fadeSlideIn(frame, 14, 28, 16)
-
-  const dividerWidth = interpolate(frame, [36, 62], [0, 72], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp"
-  })
+  // Zone 3 — hero statement
+  const hero1Anim = fadeSlideIn(frame, 178, 30, 16)
+  const hero2Anim = fadeSlideIn(frame, 194, 30, 16)
 
   return (
     <AbsoluteFill style={{ background: Colors.bg.primary, overflow: "hidden" }}>
       <GridBackground />
 
-      {/* Content column — left-aligned, generous negative space */}
+      {/* ── ZONE 1: Title ──────────────────────────────────────── */}
       <div
         style={{
           position: "absolute",
-          left: 160,
-          top: 0,
-          bottom: 0,
-          width: 780,
+          top: 168,
+          left: 0,
+          right: 0,
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center"
+          alignItems: "center",
+          gap: 18
         }}
       >
-        {/* Chapter label */}
         <div
           style={{
             fontFamily: Font.family,
@@ -63,44 +82,129 @@ export const Slide2: React.FC<SlideProps> = ({ localFrame: frame }) => {
             color: Colors.accent.blue,
             letterSpacing: "0.18em",
             textTransform: "uppercase",
-            marginBottom: 32,
             ...labelAnim
           }}
         >
-          02 - The Problem
+          02 - What is Alma?
         </div>
 
-        {/* Title block */}
-        <div style={{ marginBottom: 16, ...titleAnim }}>
-          {["Too Many Tools,", "Too Little Time"].map((line) => (
+        <div
+          style={{
+            fontFamily: Font.family,
+            fontSize: 52,
+            fontWeight: Font.weight.semibold,
+            color: Colors.text.primary,
+            letterSpacing: "-0.025em",
+            lineHeight: 1.08,
+            textAlign: "center",
+            ...titleAnim
+          }}
+        >
+          An intelligent system that delivers precise answers to complex
+          questions
+        </div>
+      </div>
+
+      {/* ── ZONE 2: Transformation pairs ───────────────────────── */}
+      <div
+        style={{
+          position: "absolute",
+          top: 340,
+          bottom: 240,
+          left: 0,
+          right: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 52
+        }}
+      >
+        {PAIRS.map((pair, i) => (
+          <div
+            key={i}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 8
+            }}
+          >
+            {/* Stop — muted, smaller */}
+            <div style={{ ...stopAnims[i] }}>
+              <div
+                style={{
+                  fontFamily: Font.family,
+                  fontSize: 24,
+                  fontWeight: Font.weight.light,
+                  color: Colors.text.secondary,
+                  opacity: 0.45,
+                  letterSpacing: "-0.01em",
+                  textAlign: "center"
+                }}
+              >
+                {pair.stop}
+              </div>
+            </div>
+
+            {/* Start — bright, larger */}
             <div
-              key={line}
               style={{
                 fontFamily: Font.family,
-                fontSize: Font.size.title,
+                fontSize: 36,
                 fontWeight: Font.weight.semibold,
                 color: Colors.text.primary,
                 letterSpacing: "-0.02em",
-                lineHeight: 1.12
+                textAlign: "center",
+                ...startAnims[i]
               }}
             >
-              {line}
+              {pair.start}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
 
-        {/* Accent divider */}
+      {/* ── ZONE 3: Hero statement ──────────────────────────────── */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 96,
+          left: 0,
+          right: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 10
+        }}
+      >
         <div
           style={{
-            width: dividerWidth,
-            height: 1,
-            background: Colors.accent.blue,
-            marginBottom: 56,
-            opacity: 0.6
+            fontFamily: Font.family,
+            fontSize: 28,
+            fontWeight: Font.weight.regular,
+            color: Colors.text.secondary,
+            letterSpacing: "-0.01em",
+            textAlign: "center",
+            ...hero1Anim
           }}
-        />
+        >
+          You decide what needs to happen.
+        </div>
 
-        <Bullet frame={frame} items={bullets} delay={52} stagger={9} />
+        <div
+          style={{
+            fontFamily: Font.family,
+            fontSize: 34,
+            fontWeight: Font.weight.semibold,
+            color: Colors.accent.blue,
+            letterSpacing: "-0.02em",
+            textAlign: "center",
+            ...hero2Anim
+          }}
+        >
+          Alma makes it happen.
+        </div>
       </div>
     </AbsoluteFill>
   )

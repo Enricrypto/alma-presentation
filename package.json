@@ -5,7 +5,22 @@
   "scripts": {
     "start": "remotion studio",
     "build": "remotion render src/index.ts LedgerlingPresentation out/presentation.mp4 --codec h264",
-    "upgrade": "remotion upgrade"
+    "upgrade": "remotion upgrade",
+
+    "deck:serve":         "npx serve deck -p 3333 --no-clipboard",
+    "deck:render":        "bash deck/scripts/render-clips.sh",
+
+    "render:intro":       "remotion render src/index.ts LedgerlingPresentation deck/videos/00-intro.mp4        --codec h264 --frames=0-143",
+    "render:logo-open":   "remotion render src/index.ts LedgerlingPresentation deck/videos/01-logo-open.mp4    --codec h264 --frames=144-281",
+    "render:problem":     "remotion render src/index.ts LedgerlingPresentation deck/videos/02-problem.mp4      --codec h264 --frames=282-569",
+    "render:transition":  "remotion render src/index.ts LedgerlingPresentation deck/videos/03-transition.mp4   --codec h264 --frames=570-707",
+    "render:meet-alma":   "remotion render src/index.ts LedgerlingPresentation deck/videos/04-meet-alma.mp4    --codec h264 --frames=708-995",
+    "render:ecosystem":   "remotion render src/index.ts LedgerlingPresentation deck/videos/05-ecosystem.mp4    --codec h264 --frames=996-1283",
+    "render:how":         "remotion render src/index.ts LedgerlingPresentation deck/videos/06-how-it-works.mp4  --codec h264 --frames=1284-1571",
+    "render:live-demo":   "remotion render src/index.ts LedgerlingPresentation deck/videos/07-live-demo.mp4     --codec h264 --frames=1572-1859",
+    "render:value":       "remotion render src/index.ts LedgerlingPresentation deck/videos/08-value-capture.mp4 --codec h264 --frames=1860-2147",
+    "render:roadmap":     "remotion render src/index.ts LedgerlingPresentation deck/videos/09-roadmap.mp4       --codec h264 --frames=2148-2435",
+    "render:logo-close":  "remotion render src/index.ts LedgerlingPresentation deck/videos/10-logo-close.mp4    --codec h264 --frames=2436-2585"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",
